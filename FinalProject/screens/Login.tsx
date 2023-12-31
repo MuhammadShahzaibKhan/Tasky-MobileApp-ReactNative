@@ -34,6 +34,7 @@ export default function Login({navigation}: any) {
         ToastAndroid.show('Login successfully', ToastAndroid.SHORT);
         setIsLoading(false);
         navigation.navigate('Tab');
+        setModel('');
       })
       .catch(err => {
         setIsLoading(false);

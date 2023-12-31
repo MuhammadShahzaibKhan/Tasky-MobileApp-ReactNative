@@ -123,32 +123,6 @@ export default function AddProject() {
           </TouchableOpacity>
         ))}
       </View>
-
-      {/* <Text style={[rncStyles.fs5, {color: '#868b95'}]}>Board</Text>
-
-      <View
-        style={[
-          rncStyles.flexRow,
-          rncStyles.justifyContentAround,
-          rncStyles.py2,
-        ]}>
-        <Text style={[rncStyles.p1, rncStyles.px3]}>Urgent</Text>
-        <Text
-          style={[
-            rncStyles.textCenter,
-            rncStyles.p1,
-            rncStyles.px3,
-            rncStyles.textPrimary,
-            rncStyles.textBold,
-            rncStyles.border1,
-            rncStyles.rounded,
-            {borderColor: '#868b95'},
-          ]}>
-          Running
-        </Text>
-        <Text style={[rncStyles.p1, rncStyles.px3]}>ongoing</Text>
-      </View> */}
-
       <View style={rncStyles.py2}>
         <SKButton color="purple" label="Save" onPress={saveTask} />
       </View>

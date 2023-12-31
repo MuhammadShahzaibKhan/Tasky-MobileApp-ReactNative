@@ -68,6 +68,15 @@ const TaskController = {
       res.status(500).send(SendResponse(false, "Internal Server Error", err));
     }
   },
+  edit: async (req, res) => {
+    try {
+      let id = req.params.id;
+      let task = await TaskModel.findByIdAndUpdate(id, req.body);
+      res.status(200).send(SendResponse(true, "Updated successfully", task));
+    } catch (e) {
+      res.status(500).send(SendResponse(false, "Internal Server Error", e));
+    }
+  },
   del: async (req, res) => {
     try {
       let id = req.params.id;

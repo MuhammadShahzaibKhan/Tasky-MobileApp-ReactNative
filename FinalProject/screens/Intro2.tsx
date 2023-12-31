@@ -43,16 +43,21 @@ export default function Intro2({navigation}: any) {
           rncStyles.justifyContentBetween,
           {marginTop: 4},
         ]}>
-        <View style={[rncStyles.p3]}>
-          <Text
-            style={[
-              rncStyles.textSecondary,
-              rncStyles.fs4,
-              {fontWeight: '500'},
-            ]}>
-            Skip
-          </Text>
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Sign In');
+          }}>
+          <View style={[rncStyles.p3]}>
+            <Text
+              style={[
+                rncStyles.textSecondary,
+                rncStyles.fs4,
+                {fontWeight: '500'},
+              ]}>
+              Skip
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View>
           <TouchableOpacity
             onPress={nextPage}

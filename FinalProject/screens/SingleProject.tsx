@@ -2,7 +2,7 @@ import {Text, ToastAndroid, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import rncStyles from 'rncstyles';
 import SKButton from '../components/SKButton';
-import {Delete} from '../config/ApiMethods/ApiMethods';
+import {Delete, Put} from '../config/ApiMethods/ApiMethods';
 
 export default function SingleProject({navigation, route}: any) {
   const obj = route.params;
@@ -15,6 +15,16 @@ export default function SingleProject({navigation, route}: any) {
       })
       .catch(err => {
         alert('Something went wrong');
+      });
+  };
+
+  const handleUpdate = (id: any, status: any) => {
+    Put(`task/update/${id}`, {isWork: status})
+      .then((res: any) => {
+        navigation.goBack();
+      })
+      .catch((err: any) => {
+        console.log(err);
       });
   };
 
@@ -82,6 +92,12 @@ export default function SingleProject({navigation, route}: any) {
               {obj.endTime}
             </Text>
           </View>
+          <View style={[rncStyles.my1]}>
+            <Text style={[rncStyles.fs3, {color: '#002055'}]}>
+              <Text style={[rncStyles.fs4, {fontWeight: '600'}]}>Status: </Text>
+              {obj.isWork}
+            </Text>
+          </View>
         </View>
         <View
           style={[
@@ -89,7 +105,19 @@ export default function SingleProject({navigation, route}: any) {
             rncStyles.flexRow,
             rncStyles.justifyContentAround,
           ]}>
-          <SKButton label="Mark As Todo" color="purple" />
+          {obj.isWork == 'Todo' ? (
+            <SKButton
+              onPress={() => handleUpdate(obj._id, 'In Progress')}
+              label="Mark As In Progress"
+              color="purple"
+            />
+          ) : obj.isWork === 'In Progress' ? (
+            <SKButton
+              onPress={() => handleUpdate(obj._id, 'Completed')}
+              label="Mark As Completed"
+              color="purple"
+            />
+          ) : null}
           <SKButton
             label="Delete"
             color="error"

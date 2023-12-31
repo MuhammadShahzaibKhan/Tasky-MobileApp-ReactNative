@@ -31,12 +31,13 @@ export default function SignUp({navigation}: any) {
     setIsLoading(true);
     Post('/auth/signup', model)
       .then((res: any) => {
-        dispatch(add({...res}));
+        dispatch(add({...res?.data}));
         ToastAndroid.show('Sign Up SuccessFully Completed', ToastAndroid.SHORT);
         <ActivityIndicator size="large" color="red" animating={show} />;
         setShow(true);
         setIsLoading(false);
-        navigation.navigate('Tab');
+        navigation.navigate('Sign In');
+        setModel('');
       })
       .catch(err => {
         setIsLoading(false);

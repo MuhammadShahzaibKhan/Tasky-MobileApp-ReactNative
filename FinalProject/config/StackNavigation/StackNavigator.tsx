@@ -9,6 +9,9 @@ import Intro2 from '../../screens/Intro2';
 import Intro3 from '../../screens/Intro3';
 import TabNavigator from './TabNavigatior';
 import SingleProject from '../../screens/SingleProject';
+import TodoProjects from '../../screens/TodoProjects';
+import ProgessProjects from '../../screens/ProgessProjects';
+import CompletedProjects from '../../screens/CompletedProjects';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +51,30 @@ function StackNavigator() {
           }}
           name="Project Details"
           component={SingleProject}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            headerShadowVisible: false,
+          }}
+          name="Todo Projects"
+          component={TodoProjects}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            headerShadowVisible: false,
+          }}
+          name="In Progess Projects"
+          component={ProgessProjects}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            headerShadowVisible: false,
+          }}
+          name="Completed Projects"
+          component={CompletedProjects}
         />
       </Stack.Navigator>
     </NavigationContainer>

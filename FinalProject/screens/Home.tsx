@@ -1,26 +1,37 @@
-import React, {useState} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 import rncStyles from 'rncstyles';
 import greenDot from '../assets/images/record.png';
 import orangeDot from '../assets/images/circle.png';
 import purpleDot from '../assets/images/round.png';
+import {Get} from '../config/ApiMethods/ApiMethods';
 
-export default function Home() {
+export default function Home({navigation}: any) {
+  const [taskList, setTaskList] = useState<any>([]);
   const user = useSelector((a: any) => a.login.user);
-  const [selectedView, setSelectedView] = useState<any>('todo');
-  const [isSelected, setIsSelected] = useState(false);
 
-  const handlePress = () => {
-    setIsSelected(!isSelected);
+  const get = () => {
+    Get('/task')
+      .then((res: any) => {
+        console.log(res.data.data);
+        setTaskList([...res.data.data]);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Screen was focused
+      get();
+      // Do something
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <SafeAreaView>
@@ -32,16 +43,16 @@ export default function Home() {
               rncStyles.flexCenter,
               rncStyles.my2,
               {
-                borderTopWidth: 20,
-                borderTopColor: '#b1d199',
-                borderRightWidth: 20,
+                borderTopWidth: 15,
+                borderTopColor: '#756ef3',
+                borderRightWidth: 15,
                 borderRightColor: '#ffb35a',
-                borderBottomWidth: 20,
+                borderBottomWidth: 15,
                 borderBottomColor: '#756ef3',
-                borderLeftWidth: 20,
+                borderLeftWidth: 15,
                 borderLeftColor: '#b1d199',
-                width: 210,
-                height: 210,
+                width: 200,
+                height: 200,
               },
             ]}>
             <Text
@@ -80,14 +91,17 @@ export default function Home() {
               Monthly
             </Text>
           </View>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Completed Projects');
+            }}>
             <View
               style={[
                 rncStyles.mx3,
                 rncStyles.border1,
                 rncStyles.rounded,
                 rncStyles.p2,
-                {borderColor: isSelected ? '#756ef3' : '#e9f1ff'},
+                {borderColor: '#756ef3'},
               ]}>
               <View>
                 <Text style={[rncStyles.fs4, {color: '#002055'}]}>
@@ -95,17 +109,26 @@ export default function Home() {
                 </Text>
               </View>
               <View>
-                <Text>18 Task now . 18 Task Completed</Text>
+                <Text>
+                  {
+                    taskList.filter((data: any) => data.isWork === 'Completed')
+                      .length
+                  }{' '}
+                  Task Completed
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('In Progess Projects');
+            }}>
             <View
               style={[
                 rncStyles.mx3,
                 rncStyles.rounded,
                 rncStyles.p2,
-                {borderColor: isSelected ? '#756ef3' : '#e9f1ff'},
+                {borderColor: '#756ef3'},
               ]}>
               <View>
                 <Text style={[rncStyles.fs4, {color: '#002055'}]}>
@@ -113,23 +136,39 @@ export default function Home() {
                 </Text>
               </View>
               <View>
-                <Text>2 Task now . 1 Started</Text>
+                <Text>
+                  {
+                    taskList.filter(
+                      (data: any) => data.isWork === 'In Progress',
+                    ).length
+                  }{' '}
+                  Task now . 1 Started
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Todo Projects');
+            }}>
             <View
               style={[
                 rncStyles.mx3,
                 rncStyles.rounded,
                 rncStyles.p2,
-                {borderColor: isSelected ? '#756ef3' : '#e9f1ff'},
+                {borderColor: '#756ef3'},
               ]}>
               <View>
                 <Text style={[rncStyles.fs4, {color: '#002055'}]}>To Do</Text>
               </View>
               <View>
-                <Text>2 Task now . 1 Upcoming</Text>
+                <Text>
+                  {
+                    taskList.filter((data: any) => data.isWork === 'Todo')
+                      .length
+                  }{' '}
+                  Task now . 1 Upcoming
+                </Text>
               </View>
             </View>
           </TouchableOpacity>

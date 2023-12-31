@@ -7,23 +7,14 @@ import {
   Image,
   ToastAndroid,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import rncStyles from 'rncstyles';
 import SKButton from '../components/SKButton';
+import {reset} from '../config/redux/reducers/LoginSlice';
 
 export default function Profile({navigation}: any) {
   const user = useSelector((a: any) => a.login.user);
-
-  //   const logOut = () => {
-  //     signOut()
-  //       .then(res => {
-  //         navigation.goBack();
-  //         ToastAndroid.show(`${user.fullName} logged out`, ToastAndroid.SHORT);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   };
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -53,9 +44,14 @@ export default function Profile({navigation}: any) {
                 <Text style={[rncStyles.fs5, rncStyles.textSecondary]}>
                   {user.email}
                 </Text>
-                <TouchableOpacity style={[rncStyles.btnPrimary, rncStyles.mt1]}>
+                {/* <TouchableOpacity
+                  style={[
+                    rncStyles.btnPrimary,
+                    rncStyles.mt1,
+                    {backgroundColor: '#675fe4'},
+                  ]}>
                   <Text style={rncStyles.textWhite}>Edit Profile</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
 
@@ -117,7 +113,13 @@ export default function Profile({navigation}: any) {
                   {user.gender}
                 </Text>
               </View>
-              <View style={[rncStyles.p1, rncStyles.mb2]}>
+              <View
+                style={[
+                  rncStyles.p1,
+                  rncStyles.mb2,
+                  rncStyles.borderBottom1,
+                  rncStyles.borderLight,
+                ]}>
                 <Text style={[rncStyles.textSecondary, rncStyles.textBold]}>
                   Contact
                 </Text>
@@ -130,8 +132,57 @@ export default function Profile({navigation}: any) {
                   {user.contact}
                 </Text>
               </View>
+              <View
+                style={[
+                  rncStyles.p1,
+                  rncStyles.mb2,
+                  rncStyles.borderBottom1,
+                  rncStyles.borderLight,
+                ]}>
+                <Text style={[rncStyles.textSecondary, rncStyles.textBold]}>
+                  Bio
+                </Text>
+                <Text
+                  style={[
+                    rncStyles.textPrimary,
+                    rncStyles.textBold,
+                    rncStyles.fs3,
+                  ]}>
+                  {user.bio}
+                </Text>
+              </View>
+              <View
+                style={[
+                  rncStyles.p1,
+                  rncStyles.mb2,
+                  rncStyles.borderBottom1,
+                  rncStyles.borderLight,
+                ]}>
+                <Text style={[rncStyles.textSecondary, rncStyles.textBold]}>
+                  Address
+                </Text>
+                <Text
+                  style={[
+                    rncStyles.textPrimary,
+                    rncStyles.textBold,
+                    rncStyles.fs3,
+                  ]}>
+                  {user.address}
+                </Text>
+              </View>
               <View style={rncStyles.py2}>
-                <SKButton label="Logout" />
+                <SKButton
+                  color="purple"
+                  label="Logout"
+                  onPress={() => {
+                    dispatch(reset());
+                    navigation.navigate('Sign In');
+                    ToastAndroid.show(
+                      'Logout successfully',
+                      ToastAndroid.SHORT,
+                    );
+                  }}
+                />
               </View>
             </View>
           </ScrollView>
